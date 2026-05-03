@@ -1,4 +1,4 @@
-3import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import '../models/note.dart';
 import '../services/api_service.dart';
 
@@ -50,9 +50,9 @@ class _ApiNotesPageState extends State<ApiNotesPage> {
       dateCreation: DateTime.now(),
     );
 
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('Création en cours...')),
-    );
+    ScaffoldMessenger.of(
+      context,
+    ).showSnackBar(const SnackBar(content: Text('Création en cours...')));
 
     try {
       final createdNote = await _apiService.createNote(newNote);
@@ -60,9 +60,9 @@ class _ApiNotesPageState extends State<ApiNotesPage> {
         _notes.insert(0, createdNote);
       });
       if (!mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Note créée avec succès !')),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text('Note créée avec succès !')));
     } catch (e) {
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
