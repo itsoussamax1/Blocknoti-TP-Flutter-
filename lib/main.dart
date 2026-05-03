@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'pages/home_page.dart';
 import 'services/note_service.dart';
@@ -6,14 +7,16 @@ import 'services/note_service.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   final prefs = await SharedPreferences.getInstance();
-  final noteService = NoteService(prefs);
-  runApp(MyApp(noteService: noteService));
+  runApp(
+    ChangeNotifierProvider(
+      create: (context) => NoteService(prefs),
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
-  final NoteService noteService;
-
-  const MyApp({super.key, required this.noteService});
+  const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +29,7 @@ class MyApp extends StatelessWidget {
         ),
         useMaterial3: true,
       ),
-      home: HomePage(noteService: noteService),
+      home: const HomePage(),
     );
   }
 }
